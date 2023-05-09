@@ -1,0 +1,324 @@
+﻿    @model NewsWeb.Models.TBL_News
+@inject NewsWeb.PublicClasses.ConvertDate convertDate
+@{
+    ViewData["Title"] = "ثبت خبر جدید | شیراز نیوز";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="~/lib/persiandatepicker/jquery.Bootstrap-PersianDateTimePicker.css" rel="stylesheet" />
+
+@* متدی جهت نمایش و کار با تاریخ شمسی *@
+@{
+    string ShamsiDate = @convertDate.ConvertMiladiToShamsi(DateTime.Now, "dddd d MMMM yyyy");
+}
+
+@* متدی جهت نمایش لیست دسته بندی ها *@
+@{
+
+    List<TBL_Category> ItemCategoryList = ViewBag.ItemCategoryList;
+}
+
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            @*کامپوننت لوگوی پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_HeaderLogo")
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse"> </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN PAGE ACTIONS -->
+        <!-- DOC: Remove "hide" class to enable the page header actions -->
+        <div class="page-actions">
+            @*کامپوننت دسترسی سریع پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_QuickAccess")
+        </div>
+        <!-- END PAGE ACTIONS -->
+        <!-- BEGIN PAGE TOP -->
+        <div class="page-top">
+
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended">
+                        @*کامپوننت نمایش تاریخ شمسی*@
+                        @await Component.InvokeAsync("Admin_TopBarShamsiDate")
+                    </li>
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+                        @*کامپوننت ناحیه اعلانات پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_Notification")
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        @*کامپوننت پروفایل کاربری پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_ProfileTopBar")
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END PAGE TOP -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN HEADER & CONTENT DIVIDER -->
+<div class="clearfix"> </div>
+<!-- END HEADER & CONTENT DIVIDER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        @*کامپوننت اساید پنل مدیریت*@
+        @await Component.InvokeAsync("Admin_Aside")
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+            <!-- BEGIN PROFILE CONTENT -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xl-12">
+                    <!-- BEGIN PROFILE SIDEBAR -->
+                    <!-- END BEGIN PROFILE SIDEBAR -->
+                    <div class="portlet light bordered">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption caption-md">
+                                <span class="caption-subject font-green-sharp bold uppercase">ثبت خبر جدید</span>
+                            </div>
+                            <div class="actions">
+                                <a asp-controller="News" asp-action="ListNews" role="button" class="btn btn-outline green-haze"> مدیریت اخبار <i class="fa fa-users ml-2"></i></a>
+                                <a asp-area="AdminPanel" asp-controller="Admin" asp-action="Index" role="button" class="btn dark btn-outline"> بازگشت </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <!-- PERSONAL INFO TAB -->
+                            <form asp-area="AdminPanel" asp-controller="News" asp-action="AddNews">
+                                <div class="row">
+                                    <div class="col-md-9 col-xl-9 col-sm-9">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">اطلاعات خبر جدید</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="col-md-6 col-xl-4 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="Title" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-user"></i>
+                                                                <input asp-for="Title" class="form-control input-icon right" autofocus="autofocus" placeholder="عنوان خبر را وارد نمایید" />
+                                                            </div>
+                                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-xl-3 col-sm-3">
+                                                        <div class="form-group">
+                                                            <label asp-for="CategoryID" class="control-label">دسته بندی</label>
+                                                            <select asp-for="CategoryID" data-style="btn-primary" class="bs-select selectpicker form-control" asp-items="@(new SelectList(ItemCategoryList, "CategoryId","Title"))" data-show-subtext="true">
+                                                            </select>
+                                                            <span asp-validation-for="CategoryID" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-xl-3 col-sm-3">
+                                                        <div class="form-group">
+                                                            <label asp-for="NewsDate" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-calendar"></i>
+                                                                <input asp-for="NewsDate" class="form-control" autofocus="autofocus" id="NewsDate" name="NewsDate"
+                                                                       placeholder="تاریخ خبر"
+                                                                       data-MdDateTimePicker="true" data-trigger="click" data-targetselector="#NewsDate" data-groupid="group1"
+                                                                       data-formdate="true" data-enabletimepicker="false" data-placement="bottom" />
+                                                            </div>
+                                                            <span asp-validation-for="NewsDate" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-xl-2 col-sm-2">
+                                                        <div class="form-group">
+                                                            <label asp-for="NewsTime" class="control-label"></label>
+                                                            <input asp-for="NewsTime" class="form-control text-center text-lg-center text-md-center text-sm-center" readonly="readonly" type="text" value="@DateTime.Now.Hour:@DateTime.Now.Minute:@DateTime.Now.Second" autofocus="autofocus" />
+                                                            <span asp-validation-for="NewsTime" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xl-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label asp-for="Abstract" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-file"></i>
+                                                                <textarea asp-for="Abstract" autofocus="autofocus" class="form-control" placeholder="چکیده یا خلاصه خبر را وارد نمایید"></textarea>
+                                                            </div>
+                                                            <span asp-validation-for="Abstract" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xl-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <script src="~/Admin/apps/scripts/ckeditor/ckeditor.js"></script>
+                                                            <label asp-for="Content" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-file"></i>
+                                                                <textarea id="Content" name="Content" asp-for="Content" class="form-control" placeholder="متن خبر را وارد نمایید"></textarea>
+                                                            </div>
+                                                            <span asp-validation-for="Content" class="text-danger"></span>
+                                                            <script>
+                                                                //CKEDITOR.replace('Content');
+                                                                const config = {
+                                                                    filebrowserImageBrowseUrl: "/imagebrowser",
+                                                                    filebrowserImageWindowWidth: 500,
+                                                                    filebrowserImageWindowHeight: 300,
+                                                                    filebrowserBrowseUrl: "/linkbrowser",
+                                                                    filebrowserWindowWidth: 500,
+                                                                    filebrowserWindowHeight: 300
+                                                                };
+                                                                const editor = document.getElementById("Content");
+                                                                CKEDITOR.replace(editor, config);
+                                                            </script>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xl-3 col-sm-3">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">عکس خبر</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="fileinput fileinput-preview fileinput-new col-md-12 col-xl-12 col-sm-12" data-provides="fileinput">
+                                                        <div>
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img id="imgNews" src="~/Admin/images/upload/newsImage/defaultNews.jpg" class="img-responsive" alt="تصویر خبر مورد نظر">
+                                                            </div>
+                                                            <div class="fileinput-preview fileinput-exists thumbnail"> </div>   
+                                                            <div class="form-group">
+                                                                <label for="upload" class="btn btn-block btn-primary">بارگزاری عکس خبر</label>
+                                                                <input asp-for="IndexImage" type="file" id="upload" name="files" class="text-center" style="display: none;">
+                                                                <div id="divmessageSUCCESS" class="alert alert-success bg-green-jungle bg-font-green-jungle col-md-12 col-xl-12 col-sm-12 hidden" style="margin-top: 10px;" role="alert">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div id="divmessageERROR" class="alert alert-danger bg-red-thunderbird bg-font-red-thunderbird col-md-12 col-xl-12 col-sm-12 hidden" style="margin-top: 10px;" role="alert">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <label class="margin-top-20 text-center" for="file_default">مشخصات تصویر :</label>
+                                                                <label class="EN__textName" for="file_name"><b></b></label>
+                                                            </div>
+                                                            <input type="button" onclick="UploadImage()" id="btnupload" class="btn btn-info btn-block" value="بارگزاری و نمایش تصویر">
+                                                            <span asp-validation-for="IndexImage" class="text-danger"></span>
+                                                            <span class="margin-top-10">
+                                                                <a href="javascript:;" class="margin-top-10 btn red btn-outline btn-block fileinput-exists" data-dismiss="fileinput"> حذف تصویر <i class="fa fa-trash ml-2"></i> </a>
+                                                            </span>
+                                                            <div class="clearfix margin-top-20">
+                                                                <span class="label label-danger">نکته مهم !</span>
+                                                                <p class="margin-top-10">
+                                                                    <span class="badge badge-info">1.</span> آپلود عکس تا حداکثر <strong class="font-red-thunderbird"> 512 کیلوبایت </strong> و با پسوند <strong class="font-red-thunderbird">(JPG , PNG)</strong>.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="hidden" id="IndexImage" name="IndexImage" />
+                                </div>
+                                <button type="submit" value="ثبت اطلاعات" class="btn btn-outline green-haze"> ثبت و ذخیره خبر <i class="fa fa-save ml-2"></i></button>
+                            </form>
+                            <!-- END PERSONAL INFO TAB -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PROFILE CONTENT -->
+        </div>
+        <!-- END CONTENT BODY -->
+    </div>
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    @*کامپوننت فووتر پنل مدیریت*@
+    @await Component.InvokeAsync("Admin_Footer")
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
+
+@section scripts
+{
+    <script src="~/lib/persiandatepicker/calendar.js"></script>
+    <script src="~/lib/persiandatepicker/jquery.Bootstrap-PersianDateTimePicker.js"></script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#upload").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('files', files[i]);
+            }
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadFile", "News", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false,
+            }).done(function (result) {
+                if (result.status == "success") {
+
+                    $("#imgNews").attr('src', "\\Admin\\images\\upload\\newsImage\\normalImage\\" + result.imagename);
+
+                    $("#divmessageSUCCESS").removeClass('hidden');
+                    $("#divmessageSUCCESS").text("کاربرگرامی: تصویر خبر با موفقیت بارگزاری شد.");
+
+                    $("#IndexImage").val(result.imagename);
+                }
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessageERROR").removeClass('hidden');
+                    $("#divmessageERROR").text("متأسفم... در هنگام بارگزاری تصویر خطایی رخ داد.");
+                }
+            });
+
+        };
+        //جهت تغییر نام فایل مربوط به انتخاب که به صورت پیش فرض انگلیسی می باشد
+        $('#upload').change(function () {
+            var filename = $('#upload').val();
+            if (filename.substring(3, 11) == 'fakepath') {
+                filename = filename.substring(12);
+            } // For Remove fakepath
+            $("label[for='file_name'] b").html(filename);
+            $("label[for='file_default']").text('نام فایل انتخاب شده : ');
+            if (filename == "") {
+                $("label[for='file_default']").text('هیچ فایل در دسترس نیست!');
+            }
+        });
+    </script>
+}

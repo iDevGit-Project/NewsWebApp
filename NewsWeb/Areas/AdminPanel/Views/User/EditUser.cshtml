@@ -1,0 +1,305 @@
+﻿@model NewsWeb.Models.ViewModels.EditUserViewModel
+@{
+    ViewData["Title"] = "ویرایش اطلاعات کاربر | شیراز نیوز";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="~/lib/persiandatepicker/jquery.Bootstrap-PersianDateTimePicker.css" rel="stylesheet" />
+
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            @*کامپوننت لوگوی پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_HeaderLogo")
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse"> </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN PAGE ACTIONS -->
+        <!-- DOC: Remove "hide" class to enable the page header actions -->
+        <div class="page-actions">
+            @*کامپوننت دسترسی سریع پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_QuickAccess")
+        </div>
+        <!-- END PAGE ACTIONS -->
+        <!-- BEGIN PAGE TOP -->
+        <div class="page-top">
+
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended">
+                        @*کامپوننت نمایش تاریخ شمسی*@
+                        @await Component.InvokeAsync("Admin_TopBarShamsiDate")
+                    </li>
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+                        @*کامپوننت ناحیه اعلانات پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_Notification")
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        @*کامپوننت پروفایل کاربری پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_ProfileTopBar")
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END PAGE TOP -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN HEADER & CONTENT DIVIDER -->
+<div class="clearfix"> </div>
+<!-- END HEADER & CONTENT DIVIDER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        @*کامپوننت اساید پنل مدیریت*@
+        @await Component.InvokeAsync("Admin_Aside")
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+            <!-- BEGIN PROFILE CONTENT -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xl-12">
+                    <!-- BEGIN PROFILE SIDEBAR -->
+                    <!-- END BEGIN PROFILE SIDEBAR -->
+                    <div class="portlet light bordered">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption caption-md">
+                                <span class="caption-subject font-green-sharp bold uppercase">ثبت کاربر جدید</span>
+                            </div>
+                            <div class="actions">
+                                <a asp-controller="User" asp-action="UserList" role="button" class="btn btn-outline green-haze"> مدیریت کاربران <i class="fa fa-users ml-2"></i></a>
+                                <a asp-area="AdminPanel" asp-controller="Admin" asp-action="Index" role="button" class="btn dark btn-outline"> بازگشت </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <!-- PERSONAL INFO TAB -->
+                            <form asp-area="AdminPanel" asp-controller="User" asp-action="EditUser">
+                                <div class="row">
+                                    <div class="col-md-9 col-xl-9 col-sm-9">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">مشخصات مورد نیاز</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="col-md-4 col-xl-4 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="FirstName" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-user"></i>
+                                                                <input asp-for="FirstName" class="form-control input-icon right" autofocus="autofocus"
+                                                                       placeholder="نام خود را وارد نمایید" />
+                                                            </div>
+                                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="LastName" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-user"></i>
+                                                                <input asp-for="LastName" class="form-control" autofocus="autofocus" placeholder="نام خانوادگی خود را وارد نمایید" />
+                                                            </div>
+                                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="GenderSex" class="control-label"></label>
+                                                            <select asp-for="GenderSex" class="bs-select selectpicker form-control" data-style="btn-primary" data-show-subtext="true">
+                                                                <option value="1">آقا</option>
+                                                                <option value="2">خانم</option>
+                                                            </select>
+                                                            <span asp-validation-for="GenderSex" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-xl-4 col-sm-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="PhoneNumber" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-mobile"></i>
+                                                                <input asp-for="PhoneNumber" class="form-control" autofocus="autofocus" placeholder="شماره موبایل خود را وارد نمایید" />
+                                                            </div>
+                                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="BirthDayDate" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-calendar"></i>
+                                                                <input asp-for="BirthDayDate" class="form-control" autofocus="autofocus" id="birthdaydate" name="birthdaydate"
+                                                                       placeholder="تاریخ تولد خود را وارد نمایید"
+                                                                       data-MdDateTimePicker="true" data-trigger="click" data-targetselector="#birthdaydate" data-groupid="group1"
+                                                                       data-formdate="true" data-enabletimepicker="false" data-placement="bottom" />
+                                                            </div>
+                                                            <span asp-validation-for="BirthDayDate" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="Email" class="control-label"></label>
+                                                            <div class="input-icon right">
+                                                                <i class="fa fa-internet-explorer"></i>
+                                                                <input asp-for="Email" class="form-control EN__Font" autofocus="autofocus" placeholder="نام ایمیل خود را وارد نمایید" />
+                                                            </div>
+                                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning col-md-12 col-xl-12 col-sm-12" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                            کاربرگرامی: استفاده از <strong> یک حرف بزرگ و یک حرف کوچک انگلیسی، اعداد 0 تا 9 و کاراکترهای ( # $ % & * ) </strong> و تا <strong> حداقل 6 کاراکتر </strong> الزامی است.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-xl-3 col-sm-3">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">عکس پروفایل</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="form-group">
+                                                    <div class="fileinput fileinput-preview fileinput-new col-md-12 col-xl-12 col-sm-12" data-provides="fileinput">
+                                                        <div>
+                                                            <div class="fileinput-new thumbnail">
+                                                                <img id="imguser" src="~/Admin/images/upload/userImage/normalImage/@Model.UserImage" style="max-height: 128px;" class="img-responsive" alt="تصویر پروفایل کاربر">
+                                                            </div>
+                                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-height: 128px;"> </div>
+                                                            <div class="form-group">
+                                                                <label for="upload" class="btn btn-block btn-primary">بارگزاری عکس پروفایل</label>
+                                                                <input asp-for="UserImage" type="file" id="upload" name="files" class="text-center" style="display: none;">
+                                                                <div id="divmessageSUCCESS" class="alert alert-success bg-green-jungle bg-font-green-jungle col-md-12 col-xl-12 col-sm-12 hidden" style="margin-top: 10px;" role="alert">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div id="divmessageERROR" class="alert alert-danger bg-red-thunderbird bg-font-red-thunderbird col-md-12 col-xl-12 col-sm-12 hidden" style="margin-top: 10px;" role="alert">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                </div>
+                                                                <label class="margin-top-20 text-center" for="file_default">مشخصات تصویر :</label>
+                                                                <label for="file_name"><b></b></label>
+                                                            </div>
+                                                            <input type="button" onclick="UploadImage()" id="btnupload" class="btn btn-info btn-block" value="آپلود و نمایش تصویر">
+                                                            <span asp-validation-for="UserImage" class="text-danger"></span>
+                                                            <span class="margin-top-10">
+                                                                <a href="javascript:;" class="margin-top-10 btn red btn-outline btn-block fileinput-exists" data-dismiss="fileinput"> حذف تصویر <i class="fa fa-trash ml-2"></i> </a>
+                                                            </span>
+                                                            <div class="clearfix margin-top-20">
+                                                                <span class="label label-danger">نکته مهم !</span>
+                                                                <p class="margin-top-10">
+                                                                    <span class="badge badge-info">1.</span> آپلود عکس تا حداکثر <strong class="font-red-thunderbird"> 512 کیلوبایت </strong> و با پسوند <strong class="font-red-thunderbird">(JPG , PNG)</strong>.
+                                                                </p>
+                                                                <p>
+                                                                    <span class="badge badge-info">2.</span> فایل عکس خود را به صورت استاندارد در اندازه <strong class="font-red-thunderbird"> 4 * 3 </strong> بارگزاری نمایید.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="hidden" id="imagename" name="imagename" />
+                                </div>
+                                <button type="submit" value="ثبت اطلاعات" class="btn btn-outline green-haze"> ویرایش و ذخیره کاربر<i class="fa fa-save ml-2"></i></button>
+                            </form>
+                            <!-- END PERSONAL INFO TAB -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PROFILE CONTENT -->
+        </div>
+        <!-- END CONTENT BODY -->
+    </div>
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    @*کامپوننت فووتر پنل مدیریت*@
+    @await Component.InvokeAsync("Admin_Footer")
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
+
+@section scripts
+{
+    <script src="~/lib/persiandatepicker/calendar.js"></script>
+    <script src="~/lib/persiandatepicker/jquery.Bootstrap-PersianDateTimePicker.js"></script>
+
+    <script>
+        var UploadImage = function () {
+            var data = new FormData;
+            var file = $("#upload").get(0);
+            var files = file.files;
+
+            for (var i = 0; i < files.length; i++) {
+                data.append('files', files[i]);
+            }
+
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadFile", "User", new { area = "AdminPanel"})',
+                data: data,
+                contentType: false,
+                processData: false,
+            }).done(function (result) {
+                if (result.status == "success") {
+
+                    $("#imguser").attr('src', "\\Admin\\images\\upload\\userImage\\thumbnailimage\\" + result.imagename);
+
+                    $("#divmessageSUCCESS").removeClass('hidden');
+                    $("#divmessageSUCCESS").text("کاربرگرامی: تصویر پروفایل شما با موفقیت بارگزاری شد.");
+
+                    $("#imagename").val(result.imagename);
+                }
+            }).fail(function (result) {
+                if (result.status != "success") {
+                    $("#divmessageERROR").removeClass('hidden');
+                    $("#divmessageERROR").text("متأسفم... در هنگام بارگزاری تصویر خطایی رخ داد.");
+                }
+            });
+
+        };
+        //جهت تغییر نام فایل مربوط به انتخاب که به صورت پیش فرض انگلیسی می باشد
+        $('#upload').change(function () {
+            var filename = $('#upload').val();
+            if (filename.substring(3, 11) == 'fakepath') {
+                filename = filename.substring(12);
+            } // For Remove fakepath
+            $("label[for='file_name'] b").html(filename);
+            $("label[for='file_default']").text('نام فایل انتخاب شده : ');
+            if (filename == "") {
+                $("label[for='file_default']").text('هیچ فایلی در دسترس نیست!');
+            }
+        });
+    </script>
+}

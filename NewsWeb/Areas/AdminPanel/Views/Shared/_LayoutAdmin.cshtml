@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- START - STYLES -->
+    <partial name="_LayoutReferencesCSS" />
+    @RenderSection("styles", false)
+    <!-- END - STYLES -->
+</head>
+@* page-sidebar-fixed *@
+<body class="page-container-bg-solid page-header-fixed page-footer-fixed page-sidebar-closed-hide-logo page-md">
+
+    @RenderBody()
+
+    <!-- START - SCRIPTS -->
+    <partial name="_LayoutReferencesJS" />
+    <!-- END - SCRIPTS -->
+    @RenderSection("scripts", required: false)
+
+    @await Component.InvokeAsync("NToastNotify")
+</body>
+</html>

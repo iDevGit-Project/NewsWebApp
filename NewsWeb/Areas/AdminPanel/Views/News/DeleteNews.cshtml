@@ -1,0 +1,19 @@
+﻿@model NewsWeb.Models.TBL_News
+@{
+    // جهت نمایش مودال ها حتماً می بایست لی اوت به صورت نال باشد
+    Layout = null;
+}
+
+<form asp-controller="News" asp-action="DeleteNews">
+    <div class="modal-header bg-red-thunderbird bg-font-red-thunderbird">
+        <button type="button" class="close font-white" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title font-white">حذف دسته بندی ( @Model.Title )</h4>
+    </div>
+
+    <div class="modal-body"> آیا از حذف خبر با عنوان <strong class="font-red-thunderbird"> ( @Model.Title ) </strong> مطمئن هستید؟ </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn red-thunderbird"> حذف <i class="fa fa-trash-o"></i></button>
+        <button type="button" class="btn dark btn-outline" data-dismiss="modal">انصراف</button>
+    </div>
+</form>

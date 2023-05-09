@@ -1,0 +1,165 @@
+﻿@model NewsWeb.Models.TBL_Category
+@{
+    ViewData["Title"] = "ویرایش دسته بندی | شیراز نیوز";
+    Layout = "~/Areas/AdminPanel/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            @*کامپوننت لوگوی پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_HeaderLogo")
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse"> </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN PAGE ACTIONS -->
+        <!-- DOC: Remove "hide" class to enable the page header actions -->
+        <div class="page-actions">
+            @*کامپوننت دسترسی سریع پنل مدیریت*@
+            @await Component.InvokeAsync("Admin_QuickAccess")
+        </div>
+        <!-- END PAGE ACTIONS -->
+        <!-- BEGIN PAGE TOP -->
+        <div class="page-top">
+
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+                        @*کامپوننت ناحیه اعلانات پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_Notification")
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <li class="separator hide"> </li>
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        @*کامپوننت پروفایل کاربری پنل مدیریت*@
+                        @await Component.InvokeAsync("Admin_ProfileTopBar")
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END PAGE TOP -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN HEADER & CONTENT DIVIDER -->
+<div class="clearfix"> </div>
+<!-- END HEADER & CONTENT DIVIDER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        @*کامپوننت اساید پنل مدیریت*@
+        @await Component.InvokeAsync("Admin_Aside")
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+            <!-- BEGIN PAGE HEAD-->
+            <div class="page-head">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <!-- <h1>Dashboard 2
+                            <small>dashboard & statistics</small>
+                        </h1> -->
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+            <!-- END PAGE HEAD-->
+            <!-- BEGIN PAGE BREADCRUMB -->
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="#">دسته بندی ها</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <span class="active">ویرایش دسته بندی</span>
+                </li>
+            </ul>
+            <!-- END PAGE BREADCRUMB -->
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <!-- BEGIN REGIONAL STATS PORTLET-->
+                    <div class="portlet light bordered">
+                        <div class="portlet-title">
+                            <div class="caption caption-md">
+                                <span class="caption-subject font-green-sharp bold uppercase">ویرایش دسته بندی</span>
+                            </div>
+                            <div class="actions">
+                                <a role="button" class="btn btn-outline green-haze" asp-controller="Category" asp-action="ListCategories"> مدیریت دسته بندی ها <i class="icon-layers"></i></a>
+                                <a asp-area="AdminPanel" asp-controller="Admin" asp-action="Index" role="button" class="btn dark btn-outline"> بازگشت </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div id="region_statistics_content" class="display-none" style="display: block;">
+                                <form asp-area="AdminPanel" asp-controller="Category" asp-action="EditCategory">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-xl-6 col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="text-bold-700">نام دسته بندی</label>
+                                                    <input type="text" asp-for="Title" autofocus="autofocus" placeholder="نام دسته بندی خود را وارد نمایید" class="form-control" />
+                                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-xl-6 col-sm-6">
+                                                    <label class="text-bold-700">توضیحات</label>
+                                                    <input type="text" asp-for="Description" autofocus="autofocus" placeholder="توضیحات دسته بندی خود را وارد نمایید" class="form-control" />
+                                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group hidden">
+                                            <input id="categoryid" asp-for="CategoryId" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" value="ویرایش اطلاعات" class="btn btn-outline green-haze"> ویرایش و ذخیره <i class="fa fa-edit ml-2"></i></button>
+                                </form>
+                            </div>
+                            <!-- END REGIONAL STATS PORTLET-->
+                        </div>
+                    </div>
+                    <!-- END PAGE BASE CONTENT -->
+                </div>
+                <!-- END CONTENT BODY -->
+            </div>
+        </div>
+        <!-- END CONTENT BODY -->
+    </div>
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    @*کامپوننت فووتر پنل مدیریت*@
+    @await Component.InvokeAsync("Admin_Footer")
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
