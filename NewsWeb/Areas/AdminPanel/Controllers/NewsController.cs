@@ -40,6 +40,9 @@ namespace NewsWeb.Areas.AdminPanel.Controllers
             int MovePage = (page - 1) * 5;
             int totalCount = _iuw.NewsRepositoryUW.Get().Count();
             ViewBag.PageID = page;
+
+            //ViewBag.RecordCountNews = _iuw.NewsRepositoryUW.Get().ToList().Select(s => s.NewsId).Count();
+
             double counterRemain = totalCount % 5;
 
             if (counterRemain == 0)
